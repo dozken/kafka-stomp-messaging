@@ -9,6 +9,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 import static com.example.kafkastompmessaging.model.NotificationMessage.TOPIC;
 
 @Slf4j
@@ -22,7 +24,8 @@ public class NotificationKafkaConsumer {
     public void handle(@Payload NotificationMessage notificationMessage, Acknowledgment acknowledgment) {
         log.info("Consuming, notificationMessage=[{}]", notificationMessage);
 
-        template.convertAndSend("/topic/notification", notificationMessage);
+        //TODO need optimization
+        Arrays.stream(notificationMessage.getRecipients()).forEach((recipient) -> template.convertAndSend("/topic/notification/" + recipient, notificationMessage));
         acknowledgment.acknowledge();
     }
 
