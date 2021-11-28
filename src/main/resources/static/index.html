@@ -12,13 +12,12 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="recipient">What is your name?</label>
-                    <input type="text" id="recipient" class="form-control" placeholder="Your name here..." value="group1">
-                </div>
-                <div class="form-group">
+                    <label for="recipients">What is your name?</label>
+                    <input type="text" id="recipients" class="form-control" placeholder="Your name here..."
+                           value="group1">
                     <button id="connect" class="btn btn-primary" type="submit">Connect</button>
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
                     </button>
@@ -27,9 +26,7 @@
         </div>
 
     </div>
-    <div class="row">
-        <div id="notifications" class="col-md-12">
-        </div>
+    <div id="notifications" class="row">
     </div>
 </div>
 <script src="/webjars/jquery/jquery.min.js"></script>

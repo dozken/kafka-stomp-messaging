@@ -1,27 +1,17 @@
 let stompClient = null;
 
-function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
-    const notifications = $("#notifications");
-    if (connected) {
-        notifications.show();
-    } else {
-        notifications.hide();
-    }
-    notifications.html("");
-}
-
-function connect(recipient = "") {
+function connect(recipients) {
     const socket = new SockJS('/ws-notification');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, frame => {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe(`/topic/notification/${recipient}`, notificationMessage => {
-            console.log('notificationMessage',notificationMessage)
-            showGreeting(notificationMessage.body);
-        });
+        recipients.forEach(recipient => {
+            stompClient.subscribe(`/topic/notification/${recipient}`, notificationMessage => {
+                console.log('notificationMessage', notificationMessage)
+                showGreeting(recipient, notificationMessage.body);
+            });
+        })
     });
 }
 
@@ -33,17 +23,34 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    connect($("#recipient").val());
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    $("#notifications").toggle(connected);
 }
 
-function showGreeting(message) {
-    $("#notifications").append("<pre>" + message + "</pre>");
+function useRecipients() {
+    const recipients = $("#recipients").val().split(`,`);
+    console.log('recipients', recipients);
+    recipients.forEach(recipient => {
+        $("#notifications").append(`
+            <div class="col-xs-12">
+                <label for="recipient-log-${recipient}">Recipient: ${recipient}</label>
+                <div id="recipient-log-${recipient}" class="recipient-log"></div>
+            </div>
+        `);
+    });
+
+    connect(recipients);
 }
 
-$(function () {
+function showGreeting(recipient, message) {
+    $(`#recipient-log-${recipient}`).append("<pre>" + message + "</pre>");
+}
+
+$(() => {
     $("form").on('submit', e => e.preventDefault());
     $("#disconnect").click(() => disconnect());
-    $("#connect").click(() => sendName());
+    $("#connect").click(() => useRecipients());
 });
 

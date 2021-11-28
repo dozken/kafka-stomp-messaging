@@ -3,7 +3,7 @@ body {
 }
 
 #main-content {
-    max-width: 940px;
+    /*max-width: 940px;*/
     padding: 2em 3em;
     margin: 0 auto 20px;
     background-color: #fff;
@@ -11,4 +11,17 @@ body {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+.recipient-log {
+    min-height: 40px;
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+pre:last-child {
+    margin-bottom: 0px;
 }
