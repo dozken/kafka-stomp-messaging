@@ -2,19 +2,20 @@ spring:
   kafka:
     bootstrap-servers: localhost:29092
     producer:
+
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         enable.idempotence: true
         acks: all
-#        spring.json.trusted.package: com.common
-#        spring.json.type.mapping: foo:com.common.Foo,bar:com.common.Bar
     consumer:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      auto-offset-reset: latest
+      auto-offset-reset: earliest
       isolation-level: read_committed
       enable-auto-commit: false
-#      group-id: notificaiton-${uuid.random}
-      group-id: notification
+      ### need unique group-id for each instance to reply ws connections
+      group-id: notification-${random.uuid}
+
+      #consider using String[De]Serializer and removing json mapping
       properties:
         spring.json.trusted.package: com.example.kafkastompmessaging.model
         spring.json.type.mapping: handle:com.example.kafkastompmessaging.model.NotificationMessage
