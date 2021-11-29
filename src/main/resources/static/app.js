@@ -26,7 +26,9 @@ function disconnect() {
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
-    $("#notifications").toggle(connected);
+    $("#notifications").show(connected);
+    if (!connected) $("#notifications").html("");
+
 }
 
 function useRecipients() {
