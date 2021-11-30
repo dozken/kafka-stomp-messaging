@@ -9,7 +9,7 @@ spring:
         acks: all
     consumer:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      auto-offset-reset: earliest
+      auto-offset-reset: latest
       isolation-level: read_committed
       enable-auto-commit: false
       ### need unique group-id for each instance to reply ws connections
